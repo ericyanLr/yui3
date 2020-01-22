@@ -482,16 +482,18 @@ proto = {
         };
 
         //Register the CSS stamp element
-        if (doc && !doc.getElementById(CSS_STAMP_EL)) {
+        if (doc && !doc.getElementById(CSS_STAMP_EL) && !YUI.Env.cssStampEl) {
             el = doc.createElement('div');
             el.innerHTML = '<div id="' + CSS_STAMP_EL + '" style="position: absolute !important; visibility: hidden !important"></div>';
             YUI.Env.cssStampEl = el.firstChild;
             
             doc.addEventListener('DOMContentLoaded', function(event) {
-                if (doc.body) {
-                    doc.body.appendChild(YUI.Env.cssStampEl);
-                } else {
-                    docEl.insertBefore(YUI.Env.cssStampEl, docEl.firstChild);
+                if (!doc.getElementById(CSS_STAMP_EL)) {
+                    if (doc.body) {
+                        doc.body.appendChild(YUI.Env.cssStampEl);
+                    } else {
+                        docEl.insertBefore(YUI.Env.cssStampEl, docEl.firstChild);
+                    }
                 }
             });
         } else if (doc && doc.getElementById(CSS_STAMP_EL) && !YUI.Env.cssStampEl) {
